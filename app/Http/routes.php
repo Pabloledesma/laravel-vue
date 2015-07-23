@@ -11,6 +11,16 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+get('guestbook', function(){
+	return view('guestbook');
+});
+
+// API
+get('api/messages', function(){
+	return App\Message::all();
+});
+
+post('api/message', function(){
+	App\Message::create(Request::all());
 });

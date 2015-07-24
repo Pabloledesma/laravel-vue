@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<meta id='token' name="token" value="{{ csrf_token() }}">
 	<title>Guestbook</title>
 	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 	<style type="text/css">
@@ -20,7 +21,7 @@
 			<div class="form-group">
 				<label for="name">
 					Name
-					<span class="error">*</span>
+					<span class="error" v-if='! newMessage.name'>*</span>
 				</label>
 				<input type="text" name="name" id="name" class="form-control" v-model='newMessage.name'>
 			</div>
@@ -28,14 +29,17 @@
 			<div class="form-group">
 				<label for="name">
 					Message
-					<span class="error">*</span>
+					<span class="error" v-if='! newMessage.message'>*</span>
 				</label>
 				<textarea name="message" id="message" class="form-control" v-model="newMessage.message"></textarea> 
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" v-if='!submitted'>
 				<button type="submit" class="btn btn-submit" v-attr="disabled: errors">Sign Guestbook</button>				
 			</div>
+
+			<div class="alert alert-success" v-if='submitted'>Thanks!</div>
+
 		</form>
 		
 		<article v-repeat="messages">

@@ -1,3 +1,5 @@
+Vue.http.headers.common['X-CSRF-TOKEN'] = document.querySelector('#token').getAttribute('value');	
+
 new Vue({
 	el: '#guestbook',
 
@@ -5,7 +7,9 @@ new Vue({
 		newMessage: {
 			name: 'foo',
 			message: 'message'
-		}
+		},
+
+		submitted: false
 	},
 
 	computed: {
@@ -29,8 +33,20 @@ new Vue({
 			});
 		},
 
-		onSubmitForm: function(){
+		onSubmitForm: function(e){
+			e.preventDefault();
 
+			var message = this.message;
+
+			this.messages.push( message );
+
+			this.newMessage = {name: '', message: ''}
+			this.submitted = true;
+
+			this.$http.post('api/message', message);
+
+
+			// hide submit button
 		}
 	}
 });
